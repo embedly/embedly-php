@@ -9,24 +9,31 @@ class Embedly_API {
         'objectify' => 1,
         'preview' => 1
     );
-    private $user_agent = 'Mozilla/5.0 (compatible; embedly-php/${VERSION})';
+    private $user_agent = "";
 
-    public function __construct($user_agent=null, $key=null, $hostname=null, $_api_version=array())
+    public function __construct($args = array())
     {
-        if ($user_agent) {
-            $this->user_agent = $user_agent;
+        $args = array_merge(array(
+            'user_agent' => sprintf("Mozilla/5.0 (compatible; embedly-php/%s)", VERSION),
+            'key' => NULL,
+            'hostname' => NULL,
+            'api_version' => NULL
+        ), $args);
+
+        if ($args['user_agent']) {
+            $this->user_agent = $args['user_agent'];
         }
-        if ($key) {
-            $this->key = $key;
+        if ($args['key']) {
+            $this->key = $args['key'];
             $this->_api_version['objectify'] = 2;
         }
-        if ($hostname) {
-            $this->hostname = $hostname;
-        } else if ($key) {
+        if ($args['hostname']) {
+            $this->hostname = $args['hostname'];
+        } else if ($args['key']) {
             $this->hostname = 'pro.embed.ly';
         }
-        if ($_api_version) {
-            $this->_api_version = array_merge($this->_api_version, $_api_version);
+        if ($args['api_version']) {
+            $this->_api_version = array_merge($this->_api_version, $args['api_version']);
         }
     }
     /* Flexibly parse host strings.
