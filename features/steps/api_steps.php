@@ -39,11 +39,6 @@ $steps->When('/(\w+) is called with the (.*) URLs?( and ([^\s]+) flag)?$/', func
     }
 });
 
-$steps->Then('/an? (\w+) error should get thrown/', function($world, $error) {
-    //$world->error.class.to_s.should == error
-    assertEquals(1,1);
-});
-
 $steps->Then('/objectify api_version is (\d+)$/', function($world, $version) {
     $api_version = $world->api->api_version();
     assertEquals($api_version['objectify'], $version);
