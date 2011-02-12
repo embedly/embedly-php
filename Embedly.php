@@ -10,6 +10,7 @@ class Embedly_API {
         'preview' => 1
     );
     private $user_agent = "";
+    private $_services = NULL;
 
     public function __construct($args = array())
     {
@@ -112,23 +113,80 @@ class Embedly_API {
             delete($params['url']);
         }
 
+        $rejects = array();
         if ($this->key) {
             $params['key'] = $this->key;
+        } else {
+            $regex = $this->services_regex();
+            foreach ($params['urls'] as $i => $url) {
+                $match = preg_match($regex, $url);
+                if (!$match) {
+                    //print("rejecting $url");
+                    unset($params['urls'][$i]);
+                    $rejects[$i] = (object)array(
+                        'error_code' => '401',
+                        'error_message' => 'This service requires an Embedly Pro account',
+                        'type' => 'error'
+                    );
+                }
+            };
         }
 
-        $path = sprintf("%s/%s", $version, $action);
-        $url_parts = $this->parse_host($this->hostname);
-        $apiUrl = sprintf("%s%s?%s", $url_parts['url'], $path, $this->q($params));
-        //print("\ncalling $apiUrl\n");
+        $result = array();
 
-        $ch = curl_init($apiUrl);
-        $this->setCurlOptions($ch, array(
-            sprintf('Host: %s', $url_parts['hostname']),
-            sprintf('User-Agent: %s', $this->user_agent)
-        ));
-        $res = $this->curlExec($ch);
-        $result = json_decode($res);
-        return $result;
+        if (sizeof($rejects) < sizeof($params['urls'])) {
+            $path = sprintf("%s/%s", $version, $action);
+            $url_parts = $this->parse_host($this->hostname);
+            $apiUrl = sprintf("%s%s?%s", $url_parts['url'], $path, $this->q($params));
+            //print("\ncalling $apiUrl\n");
+
+            $ch = curl_init($apiUrl);
+            $this->setCurlOptions($ch, array(
+                sprintf('Host: %s', $url_parts['hostname']),
+                sprintf('User-Agent: %s', $this->user_agent)
+            ));
+            $res = $this->curlExec($ch);
+            $result = json_decode($res);
+        }
+        $merged_result = array();
+        foreach ($result as $i => $v) {
+            if (array_key_exists($i, $rejects)) {
+                array_push($merged_result, array_unshift($rejects));
+            }
+            array_push($merged_result, $v);
+        };
+        // grab any leftovers
+        foreach ($rejects as $obj) {
+            array_push($merged_result, $obj);
+        }
+        return $merged_result;
+    }
+
+    public function services() {
+        if (!$this->_services) {
+            $url = $this->parse_host($this->hostname);
+            $apiUrl = sprintf("%s1/services/php", $url['url']);
+            $ch = curl_init($apiUrl);
+            $this->setCurlOptions($ch, array(
+                sprintf('Host: %s', $url['hostname']),
+                sprintf('User-Agent: %s', $this->user_agent)
+            ));
+            $res = $this->curlExec($ch);
+            $this->_services = json_decode($res);
+        }
+        return $this->_services;
+    }
+
+    public function services_regex() {
+        $services = $this->services();
+        $regexes = array_map(function($o) {
+            return implode('|', array_map(function($r) {
+                # we need to strip off regex delimeters and options to make
+                # one giant regex
+                return substr($r, 1, -2);
+            }, $o->regex));
+        }, $services);
+        return '#'.implode('|', $regexes).'#i';
     }
 
     private function q($params) {
