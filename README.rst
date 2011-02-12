@@ -16,6 +16,7 @@ Examples
 ^^^^^^^^
 
 ::
+
   <?php
   require_once('Embedly.php');
 
