@@ -16,38 +16,38 @@ Examples
 ^^^^^^^^
 
 ::
-    <?php
-    require_once('Embedly.php');
+  <?php
+  require_once('Embedly.php');
 
-    $api = new Embedly_API(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
+  $api = new Embedly_API(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
 
-    // Single url
-    $objs = $api->oembed(array(
-        'urls' => array('http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos')
-    ));
-    print_r($objs[0]);
+  // Single url
+  $objs = $api->oembed(array(
+      'urls' => array('http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos')
+  ));
+  print_r($objs[0]);
 
-    // Multiple urls
-    $objs = $api->oembed(array(
-      '  urls' => array(
-            'http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos',
-            'http://twitpic.com/3yr7hk'
-        )
-    ));
-    print_r($objs);
+  // Multiple urls
+  $objs = $api->oembed(array(
+      'urls' => array(
+          'http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos',
+          'http://twitpic.com/3yr7hk'
+      )
+  ));
+  print_r($objs);
 
-    // Call with pro (you'll need a real key)
-    $pro = new Embedly_API(array(
+  // Call with pro (you'll need a real key)
+  $pro = new Embedly_API(array(
       'key' => 'xxxxxxxxxxxxxxxx',
       'user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'
-    ));
-    $objs = $pro->preview(array(
+  ));
+  $objs = $pro->preview(array(
       'urls' => array(
           'http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement',
           'http://hn.embed.ly'
       )
-    ));
-    print_r($objs);
+  ));
+  print_r($objs);
 
 Testing
 ^^^^^^^
