@@ -108,9 +108,15 @@ class Embedly_API {
         if (!array_key_exists('urls', $params)) {
             $params['urls'] = array();
         }
+
+        if (!is_array($params['urls'])) {
+            $urls = array($params['urls']);
+            $params['urls'] = $urls;
+        }
+
         if (array_key_exists('url', $params) && $params['url']) {
             array_push($params['urls'], $params['url']);
-            delete($params['url']);
+            unset($params['url']);
         }
 
         $rejects = array();
