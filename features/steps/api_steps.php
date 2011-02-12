@@ -50,7 +50,11 @@ $steps->Then('/([^\s]+) should be (.+)$/', function($world, $key, $value) {
     }
 
     $results = array_map(function($o) use ($key){
-        return $o->$key;
+        if (property_exists($o, $key)) {
+            return $o->$key;
+        } else {
+            return '';
+        }
     }, $world->result);
     assertEquals(implode(',', $results), $value);
 });
@@ -59,6 +63,12 @@ $steps->Then('/([^\s]+) should start with ([^\s]+)/', function($world, $key, $va
     if ($world->error) {
         throw $world->error;
     }
-    //$v = array_reduce(key.split('.').inject(@result[0]){|o,c| o.send(c)}.to_s
-    //assertEquals(v_s.should match(/^#{value}/)
+    $result = array_reduce(explode('.', $key), function($o, $k) {
+        if (property_exists($o, $k)) {
+            return $o->$k;
+        } else {
+            return '';
+        }
+    }, $world->result[0]);
+    assertStringStartsWith($value, $result);
 });
