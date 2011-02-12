@@ -55,8 +55,9 @@ Testing
 ::
 
   sudo pear channel-discover pear.everzet.com
-  sudo pear install everzet/behat
-  sudo pear install phpunit/PHPUnit
+  sudo pear install channel://pear.everzet.com/behat-0.3.7
+  sudo pear channel-discover pear.phpunit.de
+  sudo pear install channel://pear.phpunit.de/PHPUnit
   # real key below, for pro tests
   export EMBEDLY_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
   behat
