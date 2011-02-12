@@ -29,12 +29,6 @@ $steps->When('/(\w+) is called with the (.*) URLs?( and ([^\s]+) flag)?$/', func
         }
         $world->result = $world->api->$method($opts);
     } catch(Exception $e) {
-        print("\nAn error occurred: ");
-        print($e->getMessage());
-        print("\n  ");
-        print($e->getFile());
-        print(":");
-        print($e->getLine());
         $world->error = $e;
     }
 });
