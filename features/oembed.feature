@@ -75,7 +75,7 @@ Feature: OEmbed
             | http://www.youtube.com/watch/is/a/bad/url                        |
             | http://www.scribd.com/doc/zfldsf/asdfkljlas/klajsdlfkasdf        |
             | http://tweetphoto.com/alsdfldsf/asdfkljlas/klajsdlfkasdf         |
-        
+
 
     Scenario Outline: Attempt multi get 404 URLs
         Given an embedly api
@@ -89,7 +89,7 @@ Feature: OEmbed
             | http://www.scribd.com/doc/lsbsdlfldsf/kl,http://www.scribd.com/doc/zasdf/asdfl   | 404,404 | error,error |
             | http://www.youtube.com/watch/zzzzasdf/kl,http://tweetphoto.com/14784358          | 404,    | error,photo |
             | http://tweetphoto.com/14784358,http://www.scribd.com/doc/asdfasdfasdf            | ,404    | photo,error |
-        
+
     Scenario Outline: Attempt at non-api service without key
         Given an embedly api
         When oembed is called with the <url> URL
@@ -98,9 +98,9 @@ Feature: OEmbed
         And type should be error
 
         Examples:
-            | url                                                                             | 
-            | http://hn.embed.ly/                                                              | 
-            | http://bit.ly/enZRxO                                                             | 
-            | http://techcrunch.com/2011/02/03/linkedins-next-data-dive-professional-skills/   | 
-            | http://teachertube.com/rssPhoto.php                                              | 
-            | http://goo.gl/y1i9p                                                              | 
+            | url                                                                              |
+            | http://hn.embed.ly/                                                              |
+            | http://bit.ly/enZRxO                                                             |
+            | http://techcrunch.com/2011/02/03/linkedins-next-data-dive-professional-skills/   |
+            | http://teachertube.com/rssPhoto.php                                              |
+            | http://goo.gl/y1i9p                                                              |
