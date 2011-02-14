@@ -6,7 +6,7 @@ class Embedly_API {
     private $key = null;
     private $_api_version = array(
         'oembed' => 1,
-        'objectify' => 1,
+        'objectify' => 2,
         'preview' => 1
     );
     private $user_agent = "";
@@ -26,7 +26,6 @@ class Embedly_API {
         }
         if ($args['key']) {
             $this->key = $args['key'];
-            $this->_api_version['objectify'] = 2;
         }
         if ($args['hostname']) {
             $this->hostname = $args['hostname'];
