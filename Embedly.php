@@ -157,7 +157,7 @@ class Embedly_API {
         $merged_result = array();
         foreach ($result as $i => $v) {
             if (array_key_exists($i, $rejects)) {
-                array_push($merged_result, array_unshift($rejects));
+                array_push($merged_result, array_shift($rejects));
             }
             array_push($merged_result, $v);
         };
