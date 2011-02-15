@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="1.0">
+    <name>Embedly</name>
+    <summary>Embedly client lib for PHP</summary>
+    <description>Embedly client lib for PHP</description>
+    <license>MIT</license>
+    <maintainers>
+        <maintainer>
+            <user>bob</user>
+            <role>lead</role>
+            <name>Bob Corsaro</name>
+            <email>bob@embed.ly</email>
+        </maintainer>
+    </maintainers>
+    <release>
+        <version>0.1.0</version>
+        <state>beta</state>
+        <date>2011-02-15</date>
+        <license>MIT</license>
+        <notes>First release.</notes>
+        <filelist>
+            <dir name="src">
+                <file name="Embedly.php" role="php"/>
+            </dir>
+        </filelist>
+    </release>
+</package>
