@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 </head>
   <body>
 <?php
-require_once "../src/Embedly.php";
+require_once "../Embedly.php";
 $api = new Embedly_API(array(
   'user_agent' => 'Mozilla/5.0 (compatible; embedly/example-app; support@embed.ly)'
 ));
