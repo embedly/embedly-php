@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 </head>
   <body>
 <?php
-require_once "../Embedly.php";
+require_once "../src/Embedly.php";
 $api = new Embedly_API(array(
   'user_agent' => 'Mozilla/5.0 (compatible; embedly/example-app; support@embed.ly)'
 ));
@@ -118,7 +118,7 @@ foreach ($oembeds as $k => $oembed) {
         print '</a>';
     } else {
         print '<a class="embed-thumbnail">';
-        print '<img src="view.png"/>';
+        print '<img src="static/img/view.png"/>';
         print '</a>';
     }
 

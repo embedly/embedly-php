@@ -1,5 +1,5 @@
 <?php
-require_once('Embedly.php');
+require_once __DIR__ . '/../../src/Embedly.php';
 
 
 $steps->Given('/an embedly api$/',  function($world) {
