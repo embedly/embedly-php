@@ -1,0 +1,193 @@
+html {
+  -webkit-font-smoothing: antialiased; }
+
+body {
+  font: 13px sans-serif;
+  *font-size: small;
+  *font: x-small;
+  line-height: 1.22; }
+
+pre, code, kbd, samp {
+  font-family: monospace, sans-serif; }
+
+body, select, input, textarea {
+  color: #444444; }
+
+.header {
+  background: black;
+  color: white;
+  width: 700px;
+  padding: 0px 30px;
+  font-family: "Lucida Grande", "Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px; }
+  .header .title {
+    background: transparent url("http://static.embed.ly/images/kalimba/orange-logo.png") no-repeat center left;
+    padding: 11px;
+    padding-left: 35px;
+    vertical-align: middle;
+    font-size: 20px; }
+    .header .title a.home {
+      text-decoration: none;
+      color: white; }
+    .header .title .rss_link {
+      float: right;
+      position: relative;
+      top: -3px; }
+
+div.error {
+  margin-left: auto;
+  margin-right: auto;
+  background: white;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px; }
+  div.error h1 {
+    font-size: 56px;
+    padding: 30px;
+    font-family: "Tangerine", serif;
+    text-shadow: 4px 4px 4px #aaaaaa; }
+
+#shortcuts {
+  display: none; }
+
+#facebox h2 {
+  font-size: 18px;
+  font-weight: bold; }
+#facebox dl.shortcut {
+  width: 480px;
+  line-height: 2.2em;
+  font-size: 14px; }
+  #facebox dl.shortcut dt {
+    width: 120px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 10px; }
+  #facebox dl.shortcut dd {
+    display: inline; }
+
+.main {
+  line-height: 14px;
+  font-size: 11px;
+  font-family: "Droid Sans", "Lucinda Grande", Helvetica, Arial, sans-serif;
+  background: #f6f6ef;
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+  padding: 30px; }
+  .main .footer {
+    margin-top: 30px;
+    width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto; }
+    .main .footer a {
+      font-weight: normal; }
+    .main .footer a[name=keys] {
+      cursor: pointer; }
+  .main a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold; }
+  .main a.article_link {
+    font-size: 14pt; }
+  .main div.article_rank {
+    font-size: 40pt;
+    width: 65px;
+    float: left;
+    padding: 24px 10px;
+    text-align: right;
+    vertical-align: top; }
+  .main div.selected {
+    color: #ff6600; }
+  .main div.article_content {
+    float: left;
+    margin-bottom: 30px;
+    width: 500px; }
+  .main div.article_meta {
+    text-align: right;
+    padding-right: 20px; }
+    .main div.article_meta a {
+      font-weight: normal; }
+    .main div.article_meta img {
+      vertical-align: top; }
+    .main div.article_meta .top_comment {
+      margin-left: 6px;
+      padding: 15px;
+      display: none;
+      color: black;
+      text-align: left; }
+      .main div.article_meta .top_comment .comment_head {
+        color: #828282;
+        padding-bottom: 10px; }
+        .main div.article_meta .top_comment .comment_head a {
+          font-weight: bold;
+          color: #828282; }
+      .main div.article_meta .top_comment .comment_content p, .main div.article_meta .top_comment .comment_content span {
+        margin-top: 10px; }
+  .main div.like {
+    float: right;
+    width: 150px;
+    overflow: hidden; }
+  .main .embedly {
+    overflow: auto;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    margin: 5px;
+    margin-bottom: 13px;
+    padding: 15px 15px 5px 15px;
+    border: solid 1px #cccccc;
+    background-color: white;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 6px 6px 8px #999999;
+    -moz-box-shadow: 6px 6px 8px #999999;
+    -webkit-box-shadow: 6px 6px 8px #999999; }
+    .main .embedly .embedly_title {
+      font-weight: bold;
+      margin-bottom: 14px;
+      text-decoration: none; }
+      .main .embedly .embedly_title a {
+        font-size: 24px;
+        line-height: 1.1em; }
+    .main .embedly .embedly_content {
+      margin-bottom: 20px; }
+      .main .embedly .embedly_content p {
+        margin-bottom: 10px; }
+      .main .embedly .embedly_content ul {
+        margin-bottom: 0px;
+        padding-bottom: 0px; }
+      .main .embedly .embedly_content li {
+        margin: 13px; }
+      .main .embedly .embedly_content img {
+        float: left;
+        margin: 5px 10px;
+        max-width: 450px; }
+      .main .embedly .embedly_content img.thumbnail {
+        max-width: 200px; }
+      .main .embedly .embedly_content a {
+        color: #000055; }
+      .main .embedly .embedly_content a:hover {
+        text-decoration: underline; }
+    .main .embedly .provider {
+      float: right;
+      line-height: 13px;
+      vertical-align: middle;
+      height: 16px;
+      padding-bottom: 2px;
+      color: #999999; }
+      .main .embedly .provider .provider_favicon {
+        height: 16px;
+        width: 16px;
+        vertical-align: middle; }
+      .main .embedly .provider .provider_link {
+        color: #555555;
+        font-size: 11px;
+        vertical-align: middle; }
+
+.clear {
+  clear: both; }

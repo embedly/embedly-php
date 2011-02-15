@@ -1,17 +1,64 @@
+<?php
+define('MAXWIDTH', 150);
+?>
 <html>
   <head><title>Embed.ly Example</title>
 <style type="text/css">
-.embed-wrapper {
-  float: left;
-  width: 400px;
+.title {
+  padding: 10px;
 }
-.embed-wrapper img {
-  max-width: 400px;
+.embed-thumbnail {
+  float: left;
+  max-width: <?php echo MAXWIDTH ?>px;
+  padding: 10px;
+  cursor: pointer;
+}
+.embed-content {
+  display: none;
+}
+.embed-wrapper {
+  padding: 10px;
+}
+.embed-thumbnail img {
+  max-width: <?php echo MAXWIDTH ?>px;
+}
+.description {
+  float: left;
+  width: 500px;
+  padding: 10px;
+}
+.via {
+  margin-top: 10px;
 }
 .clear {
   clear: both;
 }
 </style>
+<link rel="stylesheet" href="static/css/reset.css" media="screen" type="text/css">
+<link rel="stylesheet" href="static/css/main.css" media="screen" type="text/css">
+<link rel="stylesheet" href="static/css/facebox.css" media="screen" type="text/css">
+<script type="text/javascript" src="static/js/jquery.min.js"></script>
+<script type="text/javascript" src="static/js/facebox.js"></script>
+<script>
+jQuery(document).ready(function($) {
+  $('.embed-thumbnail').click(function(event) {
+    event.preventDefault();
+    $.facebox($(this).parent().find('.embed-content')[0].innerHTML)
+  });
+
+  $.facebox.settings.loadingImage = 'static/img/loading.gif'
+  $.facebox.settings.closeImage = 'static/img/closelabel.png'
+  $.facebox.settings.opacity = 0.2
+  $.facebox.settings.faceboxHtml = '\
+    <div id="facebox" style="display:none;"> \
+      <div class="popup"> \
+        <div class="content"> \
+        </div> \
+        <a href="#" class="close"><img src="static/img/closelabel.png" title="close" class="close_image" /></a> \
+      </div> \
+    </div>'
+});
+</script>
 </head>
   <body>
 <?php
@@ -55,38 +102,54 @@ $urls = array(
   "http://www.thedailyshow.com/watch/thu-december-14-2000/intro---easter",
 );
 
-$oembeds = $api->oembed(array('urls' => $urls, 'maxwidth' => 400));
+$oembeds = $api->oembed(array('urls' => $urls)); //, 'maxwidth' => 200));
 
 foreach ($oembeds as $k => $oembed) {
     $oembed = (array) $oembed;
-    print '<hr/>';
-    if (array_key_exists('description', $oembed)) {
-        print '<p>'.$oembed['description'].'</p>';
+    print '<hr/><div class="row">';
+    if (array_key_exists('title', $oembed)) {
+        print '<div class="title"><a href="'.$urls[$k].'">'.$oembed['title'].'</a></div>';
+    } else {
+        print '<div class="title"><a href="'.$urls[$k].'">'.$urls[$k].'</a></div>';
     }
-    ?><div class="embed-wrapper"><?php
+    if (array_key_exists('thumbnail_url', $oembed)) {
+        print '<a class="embed-thumbnail">';
+        print '<img src="'.$oembed['thumbnail_url'].'"/>';
+        print '</a>';
+    } else {
+        print '<a class="embed-thumbnail">';
+        print '<img src="view.png"/>';
+        print '</a>';
+    }
+
     switch($oembed['type']) {
     case 'photo':
+        print '<div class="embed-content"><div class="embed-wrapper">';
         if (!array_key_exists('title', $oembed)) {
           ?><img src="<?php echo $oembed['url'] ?>"></img><?php
         }
         else {
             ?><img src="<?php echo $oembed['url'] ?>" alt="<?php echo $oembed['title'] ?>"></img><?php
         }
-        //print '<pre>';
-        //print_r($oembed);
-        //print '</pre>';
+        print '</div></div>';
         break;
     case 'link':
     case 'rich':
     case 'video':
+        print '<div class="embed-content"><div class="embed-wrapper">';
         print $oembed['html'];
-        //print '<pre>';
-        //print_r($oembed);
-        //print '</pre>';
+        print '</div></div>';
         break;
     case 'error':
     default:
     }
+
+    print '</div>';
+    print '<div class="description">';
+    if (array_key_exists('description', $oembed)) {
+        print $oembed['description'];
+    }
+    print '<div class="via">via <a href="'.$oembed['provider_url'].'">'.$oembed['provider_name'].'</a></div>';
     print '</div>';
     print '<div class="clear"></div>';
 }
