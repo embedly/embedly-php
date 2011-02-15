@@ -10,7 +10,8 @@ Installing
 
 To install::
 
-  git clone git@github.com:embedly/embedly-php.git
+  sudo pear channel-discover dokipen.github.com/pear
+  sudo pear install channel://dokipen.github.com/pear/Embedly-0.1.0
 
 Examples
 ^^^^^^^^
@@ -18,7 +19,7 @@ Examples
 ::
 
   <?php
-  require_once('Embedly.php');
+  require_once('Embedly/Embedly.php');
 
   $api = new Embedly_API(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
 
@@ -50,10 +51,11 @@ Examples
   ));
   print_r($objs);
 
-Testing
-^^^^^^^
+Development
+^^^^^^^^^^^
 ::
 
+  git clone git://github.com/embedly/embedly-php.git
   sudo pear channel-discover pear.everzet.com
   sudo pear install channel://pear.everzet.com/behat-0.3.7
   sudo pear channel-discover pear.phpunit.de
