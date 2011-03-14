@@ -1,6 +1,31 @@
 <?php
 define('VERSION', '0.1.0');
 
+
+//supporting functions
+function reg_delim_stripper($r) {
+    # we need to strip off regex delimeters and options to make
+    # one giant regex
+    return substr($r, 1, -2);
+}
+
+
+function reg_imploder($o) {
+    return implode('|', array_map('reg_delim_stripper', $o->regex));
+}
+
+
+function _url_encoder_($key, $value) {
+    $key = urlencode($key);
+    if (is_array($value)) {
+        $value = implode(',', array_map('urlencode', $value));
+    } else {
+        $value = urlencode($value);
+    }
+    return sprintf("%s=%s", $key, $value);
+}
+
+
 class Embedly_API {
     private $hostname = 'api.embed.ly';
     private $key = null;
@@ -181,31 +206,15 @@ class Embedly_API {
         }
         return $this->_services;
     }
-
+    
     public function services_regex() {
-        $services = $this->services();
-        $regexes = array_map(function($o) {
-            return implode('|', array_map(function($r) {
-                # we need to strip off regex delimeters and options to make
-                # one giant regex
-                return substr($r, 1, -2);
-            }, $o->regex));
-        }, $services);
-        return '#'.implode('|', $regexes).'#i';
-    }
-
+    	$services = $this->services();
+    	$regexes = array_map('reg_imploder', $services);
+    	return '#'.implode('|', $regexes).'#i';
+	}
+        
     private function q($params) {
-        $pairs = array_map(function($key, $value) {
-            $key = urlencode($key);
-            if (is_array($value)) {
-                $value = implode(',', array_map(function($i){
-                    return urlencode($i);
-                }, $value));
-            } else {
-                $value = urlencode($value);
-            }
-            return sprintf("%s=%s", $key, $value);
-        }, array_keys($params), array_values($params));
+        $pairs = array_map('_url_encoder_', array_keys($params), array_values($params));
         return implode('&', $pairs);
     }
 
@@ -220,7 +229,7 @@ class Embedly_API {
     }
 
     private function curlExec(&$ch)
-    {
+    {	
         $res = curl_exec($ch);
         if (false === $res) {
             throw new Exception(curl_error($ch), curl_errno($ch));
