@@ -90,7 +90,6 @@ $urls = array(
   "http://www.metacafe.com/watch/105023/the_easter_bunny/",
   "http://blip.tv/file/449469",
   "http://video.google.com/videoplay?docid=-5427138374898988918&q=easter+bunny&pl=true",
-  "http://revver.com/video/263817/happy-easter/",
   "http://video.yahoo.com/watch/7268801/18963438",
   "http://www.viddler.com/explore/BigAppleChannel/videos/113/",
   "http://www.liveleak.com/view?i=e0b_1239827917",
