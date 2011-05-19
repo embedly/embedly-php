@@ -14,7 +14,7 @@ Feature: OEmbed
             | http://www.scribd.com/doc/13994900/Easter                    | http://www.scribd.com/  |
             | http://www.scribd.com/doc/28452730/Easter-Cards              | http://www.scribd.com/  |
             | http://www.youtube.com/watch?v=Zk7dDekYej0                   | http://www.youtube.com/ |
-            | http://tweetphoto.com/14784358                               | http://plixi.com        |
+            | http://twitpic.com/4yri3n                                    | http://twitpic.com      |
 
 
     Scenario Outline: Get the types
@@ -27,7 +27,7 @@ Feature: OEmbed
             | http://www.scribd.com/doc/13994900/Easter                    | rich  |
             | http://www.scribd.com/doc/28452730/Easter-Cards              | rich  |
             | http://www.youtube.com/watch?v=Zk7dDekYej0                   | video |
-            | http://tweetphoto.com/14784358                               | photo |
+            | http://twitpic.com/4yri3n                                    | photo |
 
 
     Scenario Outline: Get the provider_url with force flag
@@ -63,21 +63,20 @@ Feature: OEmbed
             | http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement | http://www.guardian.co.uk/ |
 
 
-    Scenario Outline: Attempt to get 404 URL
+    Scenario Outline: Attempt to get 404 or 401 URL
         Given an embedly api
         When oembed is called with the <url> URL
         Then type should be error
-        And error_code should be 404
-        And type should be error
+        And error_code should be <errcode>
+        And type should be <types>
 
         Examples:
-            | url                                                              |
-            | http://www.youtube.com/watch/is/a/bad/url                        |
-            | http://www.scribd.com/doc/zfldsf/asdfkljlas/klajsdlfkasdf        |
-            | http://tweetphoto.com/alsdfldsf/asdfkljlas/klajsdlfkasdf         |
+            | url                                                           | errcode   | types |
+            | http://www.youtube.com/watch/is/a/bad/url                     | 404       | error |
+            | http://www.scribd.com/doc/zfldsf/asdfkljlas/klajsdlfkasdf     | 404       | error |
+            | http://tweetphoto.com/alsdfldsf/asdfkljlas/klajsdlfkasdf      | 401       | error |
 
-
-    Scenario Outline: Attempt multi get 404 URLs
+    Scenario Outline: Attempt multi get 404 or 401 URLs
         Given an embedly api
         When oembed is called with the <urls> URLs
         Then error_code should be <errcode>
@@ -87,8 +86,8 @@ Feature: OEmbed
             | urls                                                                             | errcode | types       |
             | http://www.youtube.com/watch/a/bassd/url,http://www.youtube.com/watch/ldf/asdlfj | 404,404 | error,error |
             | http://www.scribd.com/doc/lsbsdlfldsf/kl,http://www.scribd.com/doc/zasdf/asdfl   | 404,404 | error,error |
-            | http://www.youtube.com/watch/zzzzasdf/kl,http://tweetphoto.com/14784358          | 404,    | error,photo |
-            | http://tweetphoto.com/14784358,http://www.scribd.com/doc/asdfasdfasdf            | ,404    | photo,error |
+            | http://www.youtube.com/watch/zzzzasdf/kl,http://tweetphoto.com/14784358          | ,401    | error,photo |
+            | http://tweetphoto.com/14784358,http://www.scribd.com/doc/asdfasdfasdf            | 401,    | photo,error |
 
     Scenario Outline: Attempt at non-api service without key
         Given an embedly api

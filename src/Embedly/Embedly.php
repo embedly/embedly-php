@@ -1,49 +1,65 @@
 <?php
-define('VERSION', '0.1.0');
 
+namespace Embedly;
 
-//supporting functions
-function reg_delim_stripper($r) {
-    # we need to strip off regex delimeters and options to make
-    # one giant regex
-    return substr($r, 1, -2);
-}
-
-
-function reg_imploder($o) {
-    return implode('|', array_map('reg_delim_stripper', $o->regex));
-}
-
-
-function _url_encoder_($key, $value) {
-    $key = urlencode($key);
-    if (is_array($value)) {
-        $value = implode(',', array_map('urlencode', $value));
-    } else {
-        $value = urlencode($value);
-    }
-    return sprintf("%s=%s", $key, $value);
-}
-
-
-class Embedly_API {
-    private $hostname = 'api.embed.ly';
-    private $key = null;
-    private $_api_version = array(
+/**
+ *
+ * @author Embed.ly, Inc.
+ * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
+ */
+class Embedly {
+    
+    /**
+     *
+     * @const
+     */
+    const VERSION = '0.1.0';
+    
+    /**
+     *
+     * @var string
+     */
+    protected $hostname = 'api.embed.ly';
+    
+    /**
+     *
+     * @var string
+     */
+    protected $key = null;
+    
+    /**
+     *
+     * @var array
+     */
+    protected $api_version = array(
         'oembed' => 1,
         'objectify' => 2,
         'preview' => 1
     );
-    private $user_agent = "";
-    private $_services = NULL;
+    
+    /**
+     *
+     * @var string
+     */
+    protected $user_agent = "";
 
-    public function __construct($args = array())
+    /**
+     *
+     * @var array|object
+     */
+    protected $services = null;
+
+    /**
+     *
+     * @param array $args
+     */
+    public function __construct(array $args = array())
     {
         $args = array_merge(array(
-            'user_agent' => sprintf("Mozilla/5.0 (compatible; embedly-php/%s)", VERSION),
-            'key' => NULL,
-            'hostname' => NULL,
-            'api_version' => NULL
+            'user_agent' => sprintf("Mozilla/5.0 (compatible; embedly-php/%s)", self::VERSION),
+            'key' => null,
+            'hostname' => null,
+            'api_version' => null
         ), $args);
 
         if ($args['user_agent']) {
@@ -58,10 +74,13 @@ class Embedly_API {
             $this->hostname = 'pro.embed.ly';
         }
         if ($args['api_version']) {
-            $this->_api_version = array_merge($this->_api_version, $args['api_version']);
+            $this->api_version = array_merge($this->api_version, $args['api_version']);
         }
     }
-    /* Flexibly parse host strings.
+    
+    /** 
+     *
+     * Flexibly parse host strings.
      *
      * Returns an array of
      * { protocol:
@@ -69,8 +88,12 @@ class Embedly_API {
      * , port:
      * , url:
      * }
+     *
+     * @param string $host
+     * @return array
      */
-    private function parse_host($host) {
+    protected function parse_host($host) 
+    {
         $port = 80;
         $protocol = 'http';
 
@@ -106,29 +129,57 @@ class Embedly_API {
             'port' => $port
         );
     }
-
+    
+    /**
+     * 
+     * @return string|array
+     */
     public function oembed($params)
-    {
-        return $this->apicall($this->_api_version['oembed'], 'oembed', $params);
+    {   
+        return $this->apicall($this->api_version['oembed'], 'oembed', $params);
     }
-
+    
+    /**
+     * 
+     * @param string|array $params 
+     * @return object
+     */
     public function preview($params)
     {
-        return $this->apicall($this->_api_version['preview'], 'preview', $params);
+        return $this->apicall($this->api_version['preview'], 'preview', $params);
     }
-
+    
+    /**
+     * 
+     * @param array $params 
+     * @return object
+     */
     public function objectify($params)
     {
-        return $this->apicall($this->_api_version['objectify'], 'objectify', $params);
+        return $this->apicall($this->api_version['objectify'], 'objectify', $params);
     }
-
+    
+    /**
+     * 
+     * @return string
+     */
     public function api_version()
     {
-        return $this->_api_version;
+        return $this->api_version;
     }
-
+    
+    /**
+     * 
+     * @param string $version 
+     * @param array $action 
+     * @param array $params 
+     * @return object
+     */
     public function apicall($version, $action, $params)
     {
+        $justone = is_string($params);
+        $params  = self::paramify($params);
+        
         if (!array_key_exists('urls', $params)) {
             $params['urls'] = array();
         }
@@ -176,7 +227,7 @@ class Embedly_API {
                 sprintf('User-Agent: %s', $this->user_agent)
             ));
             $res = $this->curlExec($ch);
-            $result = json_decode($res);
+            $result = json_decode($res) ?: array();
         }
         $merged_result = array();
         foreach ($result as $i => $v) {
@@ -189,11 +240,20 @@ class Embedly_API {
         foreach ($rejects as $obj) {
             array_push($merged_result, $obj);
         }
+        
+        if($justone) {
+            return array_shift($merged_result);
+        }
+        
         return $merged_result;
     }
-
+    
+    /**
+     * 
+     * @return array
+     */
     public function services() {
-        if (!$this->_services) {
+        if (!$this->services) {
             $url = $this->parse_host($this->hostname);
             $apiUrl = sprintf("%s1/services/php", $url['url']);
             $ch = curl_init($apiUrl);
@@ -202,23 +262,37 @@ class Embedly_API {
                 sprintf('User-Agent: %s', $this->user_agent)
             ));
             $res = $this->curlExec($ch);
-            $this->_services = json_decode($res);
+            $this->services = json_decode($res);
         }
-        return $this->_services;
+        return $this->services;
     }
     
+    /**
+     * 
+     * @return string
+     */
     public function services_regex() {
     	$services = $this->services();
-    	$regexes = array_map('reg_imploder', $services);
+    	$regexes = array_map(array(__CLASS__, 'reg_imploder'), $services);
     	return '#'.implode('|', $regexes).'#i';
 	}
-        
-    private function q($params) {
-        $pairs = array_map('_url_encoder_', array_keys($params), array_values($params));
+    
+    /**
+     * 
+     * @return string
+     */
+    protected function q($params) {
+        $pairs = array_map(array(__CLASS__, 'url_encode'), array_keys($params), array_values($params));
         return implode('&', $pairs);
     }
-
-    private function setCurlOptions(&$ch, $headers = array())
+    
+    /**
+     * 
+     * @param resource $ch
+     * @param array $headers
+     * @return void
+     */
+    protected function setCurlOptions(&$ch, $headers = array())
     {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
@@ -227,13 +301,72 @@ class Embedly_API {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     }
-
-    private function curlExec(&$ch)
+    
+    /**
+     * 
+     * @param resource $ch
+     * @return string
+     */
+    protected function curlExec(&$ch)
     {	
         $res = curl_exec($ch);
         if (false === $res) {
             throw new Exception(curl_error($ch), curl_errno($ch));
         }
         return $res;
+    }
+    
+    
+    /**
+     * 
+     * @param string $r
+     * @return string
+     */
+    public static function reg_delim_stripper($r) 
+    {
+        # we need to strip off regex delimeters and options to make
+        # one giant regex
+        return substr($r, 1, -2);
+    }  
+    
+    /**
+     * 
+     * @param stdClass $o
+     * @return string
+     */
+    public static function reg_imploder(\stdClass $o) 
+    {
+        return implode('|', array_map(array(__CLASS__, 'reg_delim_stripper'), $o->regex));
+    }
+
+    /**
+     * 
+     * @param string $key
+     * @param string|array $value
+     * @return string
+     */
+    public static function url_encode($key, $value) 
+    {
+        $key = urlencode($key);
+        if (is_array($value)) {
+            $value = implode(',', array_map('urlencode', $value));
+        } else {
+            $value = urlencode($value);
+        }
+        return sprintf("%s=%s", $key, $value);
+    }
+
+    /**
+     * 
+     * @param string $input
+     * @return array
+     */
+    public static function paramify($input) 
+    {
+        if(is_string($input)) {
+            return array('urls' => $input);
+        }
+        
+        return $input;
     }
 }

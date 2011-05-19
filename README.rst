@@ -19,15 +19,13 @@ Examples
 ::
 
   <?php
-  require_once('Embedly/Embedly.php');
+  require_once('src/Embedly/Embedly.php');
 
-  $api = new Embedly_API(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
+  $api = new Embedly\Embedly(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
 
   // Single url
-  $objs = $api->oembed(array(
-      'urls' => array('http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos')
-  ));
-  print_r($objs[0]);
+  $objs = $api->oembed('http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos');
+  print_r($objs);
 
   // Multiple urls
   $objs = $api->oembed(array(
