@@ -62,6 +62,12 @@ Development
   export EMBEDLY_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
   behat
 
+Release
+^^^^^^^
+* Edit package.xml date, and version
+* Run `pear package`
+* Run `pirum add $targetdir Embedly-$version.tgz`
+
 Note on Patches/Pull Requests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
