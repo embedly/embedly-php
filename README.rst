@@ -11,7 +11,7 @@ Installing
 To install::
 
   sudo pear channel-discover dokipen.github.com/pear
-  sudo pear install channel://dokipen.github.com/pear/Embedly-0.1.0
+  sudo pear install channel://dokipen.github.com/pear/Embedly-0.3.0
 
 Examples
 ^^^^^^^^
