@@ -48,7 +48,7 @@ Feature: OEmbed
         Examples:
             | urls                                                                                      | provider_urls                                 |
             | http://www.scribd.com/doc/13994900/Easter,http://www.scribd.com/doc/28452730/Easter-Cards | http://www.scribd.com/,http://www.scribd.com/ |
-            | http://www.youtube.com/watch?v=Zk7dDekYej0,http://plixi.com/p/16044847                    | http://www.youtube.com/,http://plixi.com      |
+            | http://www.youtube.com/watch?v=Zk7dDekYej0,http://yfrog.com/h8ir0hlj                      | http://www.youtube.com/,http://yfrog.com      |
 
 
     Scenario Outline: Get the provider_url with pro
@@ -86,8 +86,8 @@ Feature: OEmbed
             | urls                                                                             | errcode | types       |
             | http://www.youtube.com/watch/a/bassd/url,http://www.youtube.com/watch/ldf/asdlfj | 404,404 | error,error |
             | http://www.scribd.com/doc/lsbsdlfldsf/kl,http://www.scribd.com/doc/zasdf/asdfl   | 404,404 | error,error |
-            | http://www.youtube.com/watch/zzzzasdf/kl,http://tweetphoto.com/14784358          | ,401    | error,photo |
-            | http://tweetphoto.com/14784358,http://www.scribd.com/doc/asdfasdfasdf            | 401,    | photo,error |
+            | http://www.youtube.com/watch/zzzzasdf/kl,http://yfrog.com/h8ir0hlj               | 404,    | error,photo |
+            | http://yfrog.com/h8ir0hlj,http://www.scribd.com/doc/asdfasdfasdf                 | ,404    | photo,error |
 
     Scenario Outline: Attempt at non-api service without key
         Given an embedly api
@@ -97,9 +97,9 @@ Feature: OEmbed
         And type should be error
 
         Examples:
-            | url                                                                              |
-            | http://hn.embed.ly/                                                              |
-            | http://bit.ly/enZRxO                                                             |
-            | http://techcrunch.com/2011/02/03/linkedins-next-data-dive-professional-skills/   |
-            | http://teachertube.com/rssPhoto.php                                              |
-            | http://goo.gl/y1i9p                                                              |
+            | url                                                                                                        |
+            | http://hn.embed.ly/                                                                                        |
+            | http://bit.ly/enZRxO                                                                                       |
+            | http://techcrunch.com/2011/05/23/squares-disruptive-new-ipad-payments-service-will-replace-cash-registers/ |
+            | http://teachertube.com/rssPhoto.php                                                                        |
+            | http://goo.gl/y1i9p                                                                                        |
