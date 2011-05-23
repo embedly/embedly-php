@@ -10,8 +10,8 @@
   <email>bob@embed.ly</email>
   <active>yes</active>
  </lead>
- <date>2011-02-15</date>
- <time>15:47:16</time>
+ <date>2011-05-23</date>
+ <time>16:06:16</time>
  <version>
   <release>0.3.0</release>
   <api>0.3.0</api>
@@ -26,7 +26,7 @@
  </notes>
  <contents>
   <dir baseinstalldir="Embedly" name="/">
-   <file baseinstalldir="Embedly" md5sum="113e342100043faaa9f389a47c52ccfc" name="Embedly.php" role="php" />
+    <file baseinstalldir="Embedly" md5sum="113e342100043faaa9f389a47c52ccfc" name="src/Embedly/Embedly.php" role="php" />
   </dir>
  </contents>
  <dependencies>
