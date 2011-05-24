@@ -19,7 +19,8 @@ Examples
 ::
 
   <?php
-  require_once('src/Embedly/Embedly.php');
+  require_once('Embedly/src/Embedly/Embedly.php');  // if using pear
+  // require_once('src/Embedly/Embedly.php');  // if using source
 
   $api = new Embedly\Embedly(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
 
