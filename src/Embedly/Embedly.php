@@ -100,7 +100,7 @@ class Embedly {
         preg_match('/^(https?:\/\/)?([^\/]+)(:\d+)?\/?$/', $host, $matches);
 
         if (!$matches) {
-            throw new Error(sprintf('invalid host %s', host));
+            throw new \Exception(sprintf('invalid host %s', host));
         }
 
         $hostname = $matches[2];
@@ -311,7 +311,7 @@ class Embedly {
     {	
         $res = curl_exec($ch);
         if (false === $res) {
-            throw new Exception(curl_error($ch), curl_errno($ch));
+            throw new \Exception(curl_error($ch), curl_errno($ch));
         }
         return $res;
     }
