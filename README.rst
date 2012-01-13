@@ -29,13 +29,13 @@ Examples
   print_r($objs);
 
   // Multiple urls
-  $objs = $api->oembed(array(
+  $obj = $api->oembed(array(
       'urls' => array(
           'http://www.youtube.com/watch?v=sPbJ4Z5D-n4&feature=topvideos',
           'http://twitpic.com/3yr7hk'
       )
   ));
-  print_r($objs);
+  print_r($obj);
 
   // Call with pro (you'll need a real key)
   $pro = new Embedly_API(array(
