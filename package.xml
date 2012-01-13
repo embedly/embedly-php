@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>Embedly</name>
  <channel>dokipen.github.com/pear</channel>
  <summary>Embedly API</summary>
@@ -10,11 +10,11 @@
   <email>bob@embed.ly</email>
   <active>yes</active>
  </lead>
- <date>2011-05-23</date>
- <time>16:06:16</time>
+ <date>2012-01-13</date>
+ <time>14:24:08</time>
  <version>
-  <release>0.3.0</release>
-  <api>0.3.0</api>
+  <release>0.4.0</release>
+  <api>0.4.0</api>
  </version>
  <stability>
   <release>beta</release>
@@ -25,9 +25,9 @@
 -
  </notes>
  <contents>
-  <dir baseinstalldir="Embedly" name="/">
-    <file baseinstalldir="Embedly" md5sum="113e342100043faaa9f389a47c52ccfc" name="src/Embedly/Embedly.php" role="php" />
-  </dir>
+     <dir name="/">
+         <file role="php" baseinstalldir="Embedly" install-as="Embedly.php" name="src/Embedly/Embedly.php" />
+     </dir>
  </contents>
  <dependencies>
   <required>
