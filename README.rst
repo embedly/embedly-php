@@ -1,9 +1,15 @@
 embedly-php
 ===========
 
-A PHP library for using the Embedly API.  To find out what Embedly is all about, please
-visit http://embed.ly.  To see our api documentation, visit
+A PHP library for using the Embedly API.  To find out what Embedly is all
+about, please visit http://embed.ly.  To see our api documentation, visit
 http://api.embed.ly/docs.
+
+Requirements
+^^^^^^^^^^^^
+
+You will need at least PHP version 5.3 with curl enabled. Behat  and PHPUnit
+are required to run the test suite. Pear is recommended.
 
 Installing
 ^^^^^^^^^^
@@ -11,7 +17,7 @@ Installing
 To install::
 
   sudo pear channel-discover dokipen.github.com/pear
-  sudo pear install channel://dokipen.github.com/pear/Embedly-0.3.0
+  sudo pear install channel://dokipen.github.com/pear/Embedly-0.4.0
 
 Examples
 ^^^^^^^^
@@ -76,8 +82,9 @@ Note on Patches/Pull Requests
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
   future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Commit, do not mess with rakefile, version, or history.  (if you want to have
+  your own version, that is fine but bump version in a commit by itself I can
+  ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
 Copyright
