@@ -1,7 +1,7 @@
 {
     "name": "embedly/embedly-php",
     "description": "Embedly library for PHP",
-    "keywords": ["odm","mongodb"],
+    "keywords": ["embedly"],
     "homepage": "https://github.com/embedly",
     "type": "library",
     "license": "MIT",
