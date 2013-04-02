@@ -16,8 +16,19 @@ Installing
 
 To install::
 
-  sudo pear channel-discover dokipen.github.com/pear
-  sudo pear install channel://dokipen.github.com/pear/Embedly-0.4.0
+1. Download the `composer.phar` executable or use the installer.::
+
+  curl -sS https://getcomposer.org/installer | php
+
+1. Create a composer.json defining your dependencies. Note that this example is
+   a short version for applications that are not meant to be published as a
+   packages themselves.::
+
+  {
+      "require": [
+           "embedly/embedly-php"
+      ]
+  }
 
 Examples
 ^^^^^^^^
@@ -61,19 +72,10 @@ Development
 ::
 
   git clone git://github.com/embedly/embedly-php.git
-  sudo pear channel-discover pear.everzet.com
-  sudo pear install channel://pear.everzet.com/behat-0.3.7
-  sudo pear channel-discover pear.phpunit.de
-  sudo pear install channel://pear.phpunit.de/PHPUnit
-  # real key below, for pro tests
+  curl -sS https://getcomposer.org/installer | php
+  php composer.phar install
   export EMBEDLY_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  behat
-
-Release
-^^^^^^^
-* Edit package.xml date, and version
-* Run `pear package`
-* Run `pirum add $targetdir Embedly-$version.tgz`
+  bin/behat
 
 Note on Patches/Pull Requests
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
