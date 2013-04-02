@@ -5,7 +5,7 @@ Feature: OEmbed
     Because I want and oembed for a specific url
 
     Scenario Outline: Get the provider_url
-        Given an embedly api
+        Given an embedly api with key
         When oembed is called with the <url> URL
         Then the provider_url should be <provider_url>
 
@@ -18,7 +18,7 @@ Feature: OEmbed
 
 
     Scenario Outline: Get the types
-        Given an embedly api
+        Given an embedly api with key
         When oembed is called with the <url> URL
         Then the type should be <type>
 
@@ -31,7 +31,7 @@ Feature: OEmbed
 
 
     Scenario Outline: Get the provider_url with force flag
-        Given an embedly api
+        Given an embedly api with key
         When oembed is called with the <url> URL and force flag
         Then the provider_url should be <provider_url>
 
@@ -41,7 +41,7 @@ Feature: OEmbed
 
 
     Scenario Outline: Get multiple provider_urls
-        Given an embedly api
+        Given an embedly api with key
         When oembed is called with the <urls> URLs
         Then provider_url should be <provider_urls>
 
@@ -58,13 +58,13 @@ Feature: OEmbed
 
         Examples:
             | url                                                                              | provider_url               |
-            | http://blog.embed.ly/bob                                                         | http://posterous.com       |
-            | http://blog.doki-pen.org/cassandra-rules                                         | http://posterous.com       |
-            | http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement | http://www.guardian.co.uk/ |
+            | http://blog.embed.ly/bob                                                         | http://tumblr.com          |
+            | http://blog.doki-pen.org/cassandra-rules                                         | http://blog.doki-pen.org   |
+            | http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement | http://www.guardian.co.uk  |
 
 
     Scenario Outline: Attempt to get 404 or 401 URL
-        Given an embedly api
+        Given an embedly api with key
         When oembed is called with the <url> URL
         Then type should be error
         And error_code should be <errcode>
@@ -74,10 +74,9 @@ Feature: OEmbed
             | url                                                           | errcode   | types |
             | http://www.youtube.com/watch/is/a/bad/url                     | 404       | error |
             | http://www.scribd.com/doc/zfldsf/asdfkljlas/klajsdlfkasdf     | 404       | error |
-            | http://tweetphoto.com/alsdfldsf/asdfkljlas/klajsdlfkasdf      | 401       | error |
 
     Scenario Outline: Attempt multi get 404 or 401 URLs
-        Given an embedly api
+        Given an embedly api with key
         When oembed is called with the <urls> URLs
         Then error_code should be <errcode>
         And type should be <types>

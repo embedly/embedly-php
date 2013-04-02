@@ -8,25 +8,25 @@ namespace Embedly;
  * @author Sven Eisenschmidt <sven.eisenschmidt@gmail.com>
  */
 class Embedly {
-    
+
     /**
      *
      * @const
      */
     const VERSION = '0.1.0';
-    
+
     /**
      *
      * @var string
      */
     protected $hostname = 'api.embed.ly';
-    
+
     /**
      *
      * @var string
      */
     protected $key = null;
-    
+
     /**
      *
      * @var array
@@ -36,7 +36,7 @@ class Embedly {
         'objectify' => 2,
         'preview' => 1
     );
-    
+
     /**
      *
      * @var string
@@ -70,15 +70,13 @@ class Embedly {
         }
         if ($args['hostname']) {
             $this->hostname = $args['hostname'];
-        } else if ($args['key']) {
-            $this->hostname = 'pro.embed.ly';
         }
         if ($args['api_version']) {
             $this->api_version = array_merge($this->api_version, $args['api_version']);
         }
     }
-    
-    /** 
+
+    /**
      *
      * Flexibly parse host strings.
      *
@@ -92,7 +90,7 @@ class Embedly {
      * @param string $host
      * @return array
      */
-    protected function parse_host($host) 
+    protected function parse_host($host)
     {
         $port = 80;
         $protocol = 'http';
@@ -129,57 +127,57 @@ class Embedly {
             'port' => $port
         );
     }
-    
+
     /**
-     * 
+     *
      * @return string|array
      */
     public function oembed($params)
-    {   
+    {
         return $this->apicall($this->api_version['oembed'], 'oembed', $params);
     }
-    
+
     /**
-     * 
-     * @param string|array $params 
+     *
+     * @param string|array $params
      * @return object
      */
     public function preview($params)
     {
         return $this->apicall($this->api_version['preview'], 'preview', $params);
     }
-    
+
     /**
-     * 
-     * @param array $params 
+     *
+     * @param array $params
      * @return object
      */
     public function objectify($params)
     {
         return $this->apicall($this->api_version['objectify'], 'objectify', $params);
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
     public function api_version()
     {
         return $this->api_version;
     }
-    
+
     /**
-     * 
-     * @param string $version 
-     * @param array $action 
-     * @param array $params 
+     *
+     * @param string $version
+     * @param array $action
+     * @param array $params
      * @return object
      */
     public function apicall($version, $action, $params)
     {
         $justone = is_string($params);
         $params  = self::paramify($params);
-        
+
         if (!array_key_exists('urls', $params)) {
             $params['urls'] = array();
         }
@@ -219,7 +217,7 @@ class Embedly {
             $path = sprintf("%s/%s", $version, $action);
             $url_parts = $this->parse_host($this->hostname);
             $apiUrl = sprintf("%s%s?%s", $url_parts['url'], $path, $this->q($params));
-            //print("\ncalling $apiUrl\n");
+            print("\ncalling $apiUrl\n");
 
             $ch = curl_init($apiUrl);
             $this->setCurlOptions($ch, array(
@@ -240,16 +238,16 @@ class Embedly {
         foreach ($rejects as $obj) {
             array_push($merged_result, $obj);
         }
-        
+
         if($justone) {
             return array_shift($merged_result);
         }
-        
+
         return $merged_result;
     }
-    
+
     /**
-     * 
+     *
      * @return array
      */
     public function services() {
@@ -266,9 +264,9 @@ class Embedly {
         }
         return $this->services;
     }
-    
+
     /**
-     * 
+     *
      * @return string
      */
     public function services_regex() {
@@ -276,18 +274,19 @@ class Embedly {
     	$regexes = array_map(array(__CLASS__, 'reg_imploder'), $services);
     	return '#'.implode('|', $regexes).'#i';
 	}
-    
+
     /**
-     * 
+     *
      * @return string
      */
     protected function q($params) {
         $pairs = array_map(array(__CLASS__, 'url_encode'), array_keys($params), array_values($params));
+        print implode('&', $pairs);
         return implode('&', $pairs);
     }
-    
+
     /**
-     * 
+     *
      * @param resource $ch
      * @param array $headers
      * @return void
@@ -301,51 +300,51 @@ class Embedly {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     }
-    
+
     /**
-     * 
+     *
      * @param resource $ch
      * @return string
      */
     protected function curlExec(&$ch)
-    {	
+    {
         $res = curl_exec($ch);
         if (false === $res) {
             throw new Exception(curl_error($ch), curl_errno($ch));
         }
         return $res;
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param string $r
      * @return string
      */
-    public static function reg_delim_stripper($r) 
+    public static function reg_delim_stripper($r)
     {
         # we need to strip off regex delimeters and options to make
         # one giant regex
         return substr($r, 1, -2);
-    }  
-    
+    }
+
     /**
-     * 
+     *
      * @param stdClass $o
      * @return string
      */
-    public static function reg_imploder(\stdClass $o) 
+    public static function reg_imploder(\stdClass $o)
     {
         return implode('|', array_map(array(__CLASS__, 'reg_delim_stripper'), $o->regex));
     }
 
     /**
-     * 
+     *
      * @param string $key
      * @param string|array $value
      * @return string
      */
-    public static function url_encode($key, $value) 
+    public static function url_encode($key, $value)
     {
         $key = urlencode($key);
         if (is_array($value)) {
@@ -357,16 +356,16 @@ class Embedly {
     }
 
     /**
-     * 
+     *
      * @param string $input
      * @return array
      */
-    public static function paramify($input) 
+    public static function paramify($input)
     {
         if(is_string($input)) {
             return array('urls' => $input);
         }
-        
+
         return $input;
     }
 }
