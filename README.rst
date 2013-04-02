@@ -16,21 +16,17 @@ Installing
 
 To install::
 
-1. Download the `composer.phar` executable or use the installer.::
-
-  curl -sS https://getcomposer.org/installer | php
-
-2. Create a composer.json defining your dependencies. Note that this example is
-   a short version for applications that are not meant to be published as a
-   packages themselves.::
-
-  {
+1. Download the `composer.phar` executable or use the installer.
+::
+    curl -sS https://getcomposer.org/installer | php
+2. Create a composer.json defining your dependencies. Note that this example is a short version for applications that are not meant to be published as a packages themselves.
+::
+    {
       "require": [
-           "embedly/embedly-php"
+        "embedly/embedly-php"
       ]
-  }
-
-3. Run Composer: `php composer.phar install`
+    }
+3. Run Composer: ``php composer.phar install``
 
 Examples
 ^^^^^^^^
