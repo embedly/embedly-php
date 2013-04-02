@@ -285,6 +285,7 @@ class Embedly {
      */
     protected function q($params) {
         $pairs = array_map(array(__CLASS__, 'url_encode'), array_keys($params), array_values($params));
+        print implode('&', $pairs);
         return implode('&', $pairs);
     }
 

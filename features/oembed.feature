@@ -58,9 +58,9 @@ Feature: OEmbed
 
         Examples:
             | url                                                                              | provider_url               |
-            | http://blog.embed.ly/bob                                                         | http://blog.embed.ly/      |
-            | http://blog.doki-pen.org/cassandra-rules                                         | http://blog.doki-pen.org/  |
-            | http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement | http://www.guardian.co.uk/ |
+            | http://blog.embed.ly/bob                                                         | http://tumblr.com          |
+            | http://blog.doki-pen.org/cassandra-rules                                         | http://blog.doki-pen.org   |
+            | http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement | http://www.guardian.co.uk  |
 
 
     Scenario Outline: Attempt to get 404 or 401 URL
