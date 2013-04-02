@@ -20,7 +20,7 @@ To install::
 
   curl -sS https://getcomposer.org/installer | php
 
-1. Create a composer.json defining your dependencies. Note that this example is
+2. Create a composer.json defining your dependencies. Note that this example is
    a short version for applications that are not meant to be published as a
    packages themselves.::
 
@@ -29,6 +29,8 @@ To install::
            "embedly/embedly-php"
       ]
   }
+
+3. Run Composer: `php composer.phar install`
 
 Examples
 ^^^^^^^^
