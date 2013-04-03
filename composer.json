@@ -6,13 +6,12 @@
     "type": "library",
     "license": "MIT",
     "authors": [
-    {
-        "name": "Bob Corsaro",
-        "email": "rcorsaro@gmail.com",
-        "homepage": "http://bit.ly/rcorsaro"
-    }
-    ]
-    ,
+      {
+          "name": "Bob Corsaro",
+          "email": "rcorsaro@gmail.com",
+          "homepage": "http://bit.ly/rcorsaro"
+      }
+    ] ,
     "require":
     {
         "php": ">=5.3.0",
@@ -23,7 +22,7 @@
         "psr-0": {
             "Embedly": "src"
         }
-    }
+    },
     "config": {
         "bin-dir": "bin/"
     }
