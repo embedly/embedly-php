@@ -200,7 +200,6 @@ class Embedly {
             foreach ($params['urls'] as $i => $url) {
                 $match = preg_match($regex, $url);
                 if (!$match) {
-                    //print("rejecting $url");
                     unset($params['urls'][$i]);
                     $rejects[$i] = (object)array(
                         'error_code' => '401',
@@ -285,7 +284,6 @@ class Embedly {
      */
     protected function q($params) {
         $pairs = array_map(array(__CLASS__, 'url_encode'), array_keys($params), array_values($params));
-        print implode('&', $pairs);
         return implode('&', $pairs);
     }
 
