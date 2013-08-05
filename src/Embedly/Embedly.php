@@ -34,7 +34,8 @@ class Embedly {
     protected $api_version = array(
         'oembed' => 1,
         'objectify' => 2,
-        'preview' => 1
+        'preview' => 1,
+        'extract' => 1
     );
 
     /**
@@ -155,6 +156,16 @@ class Embedly {
     public function objectify($params)
     {
         return $this->apicall($this->api_version['objectify'], 'objectify', $params);
+    }
+    
+    /**
+     *
+     * @param string|array $params
+     * @return object
+     */
+    public function extract($params)
+    {
+        return $this->apicall($this->api_version['extract'], 'extract', $params);
     }
 
     /**
