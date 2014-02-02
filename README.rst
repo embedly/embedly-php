@@ -57,7 +57,7 @@ Examples
       'key' => 'xxxxxxxxxxxxxxxx',
       'user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'
   ));
-  $objs = $pro->preview(array(
+  $objs = $pro->extract(array(
       'urls' => array(
           'http://www.guardian.co.uk/media/2011/jan/21/andy-coulson-phone-hacking-statement',
           'http://hn.embed.ly'
