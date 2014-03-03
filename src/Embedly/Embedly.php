@@ -99,7 +99,7 @@ class Embedly {
         preg_match('/^(https?:\/\/)?([^\/]+)(:\d+)?\/?$/', $host, $matches);
 
         if (!$matches) {
-            throw new \Exception(sprintf('invalid host %s', host));
+            throw new \Exception(sprintf('invalid host %s', $host));
         }
 
         $hostname = $matches[2];
