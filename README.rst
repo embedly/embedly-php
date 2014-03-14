@@ -53,7 +53,7 @@ Examples
   print_r($obj);
 
   // Call with pro (you'll need a real key)
-  $pro = new Embedly_API(array(
+  $pro = new Embedly\Embedly(array(
       'key' => 'xxxxxxxxxxxxxxxx',
       'user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'
   ));
