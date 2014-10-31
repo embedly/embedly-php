@@ -49,6 +49,19 @@ class Embedly {
      * @var array|object
      */
     protected $services = null;
+    
+    /**
+     *
+     * @var string
+     */
+    protected $services_cache_file = null;
+
+    /**
+     * Seconds to keep services cache
+     * 
+     * @var int|null
+     */
+    protected $services_cache_age = null;
 
     /**
      *
@@ -60,7 +73,9 @@ class Embedly {
             'user_agent' => sprintf("Mozilla/5.0 (compatible; embedly-php/%s)", self::VERSION),
             'key' => null,
             'hostname' => null,
-            'api_version' => null
+            'api_version' => null,
+            'services_cache_file' => null,
+            'services_cache_age' => 86400
         ), $args);
 
         if ($args['user_agent']) {
@@ -74,6 +89,17 @@ class Embedly {
         }
         if ($args['api_version']) {
             $this->api_version = array_merge($this->api_version, $args['api_version']);
+        }
+        if ($args['services_cache_file']) {
+            $file = $args['services_cache_file'];
+            if (file_exists($file) && is_writeable($file) === false) {
+                throw new \RuntimeException("$file is not writable");
+            }
+
+            $this->services_cache_file = $file;
+        }
+        if ($args['services_cache_age']) {
+            $this->services_cache_age = (int) $args['services_cache_age'];
         }
     }
 
@@ -266,17 +292,78 @@ class Embedly {
      */
     public function services() {
         if (!$this->services) {
-            $url = $this->parse_host($this->hostname);
-            $apiUrl = sprintf("%s1/services/php", $url['url']);
-            $ch = curl_init($apiUrl);
-            $this->setCurlOptions($ch, array(
-                sprintf('Host: %s', $url['hostname']),
-                sprintf('User-Agent: %s', $this->user_agent)
-            ));
-            $res = $this->curlExec($ch);
-            $this->services = json_decode($res);
+            if ($this->services_has_cache()) {
+                $this->services = $this->services_from_cache();
+            } else {
+                $services = $this->services_from_server();
+                $this->services_store_cache($services);
+                $this->services = $services;
+            }
         }
+
         return $this->services;
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    public function services_has_cache() {
+        $file = $this->services_cache_file;
+
+        if ($file === null) {
+            return false;
+        }
+
+        if (file_exists($file) === false) {
+            return false;
+        }
+
+        $age = time() - filemtime($file);
+        if ($age > $this->services_cache_age) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 
+     * @return array|null
+     */
+    public function services_from_cache() {
+        $file = $this->services_cache_file;
+        return json_decode(file_get_contents($file));
+    }
+
+    /**
+     * 
+     * @param array $services
+     * @return self
+     */
+    public function services_store_cache(array $services) {
+        $file = $this->services_cache_file;
+        if ($file) {
+            file_put_contents($file, json_encode($services));
+        }
+
+        return $this;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function services_from_server() {
+        $url = $this->parse_host($this->hostname);
+        $apiUrl = sprintf("%s1/services/php", $url['url']);
+        $ch = curl_init($apiUrl);
+        $this->setCurlOptions($ch, array(
+            sprintf('Host: %s', $url['hostname']),
+            sprintf('User-Agent: %s', $this->user_agent)
+        ));
+        $res = $this->curlExec($ch);
+        return json_decode($res);
     }
 
     /**
