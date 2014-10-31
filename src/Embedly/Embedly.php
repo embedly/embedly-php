@@ -363,7 +363,6 @@ class Embedly {
             sprintf('User-Agent: %s', $this->user_agent)
         ));
         $res = $this->curlExec($ch);
-        var_dump('FROM SERVER');
         return json_decode($res);
     }
 
