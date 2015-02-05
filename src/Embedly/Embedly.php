@@ -222,6 +222,7 @@ class Embedly {
         }
 
         $result = array();
+        $merged_result = array();
 
         if (sizeof($rejects) < sizeof($params['urls'])) {
             if (count($params['urls']) > 20) {
@@ -238,10 +239,34 @@ class Embedly {
                 sprintf('Host: %s', $url_parts['hostname']),
                 sprintf('User-Agent: %s', $this->user_agent)
             ));
-            $res = $this->curlExec($ch);
+            $response_arr = $this->curlExec($ch);
+            $http_code = $response_arr["http_code"];
+            $res = $response_arr["response"];
             $result = json_decode($res) ?: array();
+
+            // if there's an http error code, return the error in all results
+            if ($http_code !== 200) {
+                // if error is returned in response use that one otherwise create new one
+                if (count($result) > 0) {
+                    $error_obj = $result;
+                    // all results will be in rejected array
+                    $result = array();
+                }
+                else {
+                    $error_obj = (object)array(
+                        'error_code' => $http_code,
+                        'error_message' => sprintf('HTTP error code %s', $http_code),
+                        'type' => 'error'
+                    );
+                }
+
+                // set errors in every result object
+                foreach($params["urls"] as $i => $url) {
+                    $rejects[$i] = $error_obj;
+                }
+            }
         }
-        $merged_result = array();
+
         foreach ($result as $i => $v) {
             if (array_key_exists($i, $rejects)) {
                 array_push($merged_result, array_shift($rejects));
@@ -273,7 +298,8 @@ class Embedly {
                 sprintf('Host: %s', $url['hostname']),
                 sprintf('User-Agent: %s', $this->user_agent)
             ));
-            $res = $this->curlExec($ch);
+            $response_arr = $this->curlExec($ch);
+            $res = $response_arr["response"];
             $this->services = json_decode($res);
         }
         return $this->services;
@@ -322,10 +348,11 @@ class Embedly {
     protected function curlExec(&$ch)
     {
         $res = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (false === $res) {
             throw new \Exception(curl_error($ch), curl_errno($ch));
         }
-        return $res;
+        return array("http_code" => $http_code, "response" => $res);
     }
 
 
