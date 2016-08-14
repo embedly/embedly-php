@@ -36,6 +36,7 @@ Examples
   <?php
   require_once('Embedly/src/Embedly/Embedly.php');  // if using pear
   // require_once('src/Embedly/Embedly.php');  // if using source
+  // require_once(__DIR__ . /vendor/autoload.php'); // if using Composer 
 
   $api = new Embedly\Embedly(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
 
