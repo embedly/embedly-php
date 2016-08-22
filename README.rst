@@ -19,14 +19,10 @@ To install::
 1. Download the `composer.phar` executable or use the installer.
 ::
     curl -sS https://getcomposer.org/installer | php
-2. Create a composer.json defining your dependencies. Note that this example is a short version for applications that are not meant to be published as a packages themselves.
+
+2. Install this package with comopser:
 ::
-    {
-      "require": [
-        "embedly/embedly-php"
-      ]
-    }
-3. Run Composer: ``php composer.phar install``
+    ``php composer.phar require embedly/embedly-php``
 
 Examples
 ^^^^^^^^
@@ -36,6 +32,7 @@ Examples
   <?php
   require_once('Embedly/src/Embedly/Embedly.php');  // if using pear
   // require_once('src/Embedly/Embedly.php');  // if using source
+  // require_once(__DIR__ . '/vendor/autoload.php'); // if using Composer 
 
   $api = new Embedly\Embedly(array('user_agent' => 'Mozilla/5.0 (compatible; mytestapp/1.0)'));
 
