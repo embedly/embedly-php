@@ -27,7 +27,7 @@ To install::
 Examples
 ^^^^^^^^
 
-::
+.. code-block:: php
 
   <?php
   require_once('Embedly/src/Embedly/Embedly.php');  // if using pear
