@@ -46,6 +46,12 @@ class Embedly {
 
     /**
      *
+     * @var array
+     */
+    protected $curl_opts = array();
+
+    /**
+     *
      * @var array|object
      */
     protected $services = null;
@@ -60,7 +66,8 @@ class Embedly {
             'user_agent' => sprintf("Mozilla/5.0 (compatible; embedly-php/%s)", self::VERSION),
             'key' => null,
             'hostname' => null,
-            'api_version' => null
+            'api_version' => null,
+            'curl_opts' => array()
         ), $args);
 
         if ($args['user_agent']) {
@@ -74,6 +81,9 @@ class Embedly {
         }
         if ($args['api_version']) {
             $this->api_version = array_merge($this->api_version, $args['api_version']);
+        }
+        if ($args['curl_opts']) {
+            $this->curl_opts = $args['curl_opts'];
         }
     }
 
@@ -338,12 +348,17 @@ class Embedly {
         curl_setopt($ch, CURLOPT_BUFFERSIZE, 4096);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+        // apply custom curl options specified in Embedly\Embedly constructor
+        foreach ($this->curl_opts as $option => $value) {
+            curl_setopt($ch, $option, $value);
+        }
     }
 
     /**
      *
      * @param resource $ch
-     * @return string
+     * @return array
      */
     protected function curlExec(&$ch)
     {
@@ -370,7 +385,7 @@ class Embedly {
 
     /**
      *
-     * @param stdClass $o
+     * @param \stdClass $o
      * @return string
      */
     public static function reg_imploder(\stdClass $o)
