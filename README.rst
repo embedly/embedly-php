@@ -2,8 +2,8 @@ embedly-php
 ===========
 
 A PHP library for using the Embedly API.  To find out what Embedly is all
-about, please visit http://embed.ly.  To see our api documentation, visit
-http://api.embed.ly/docs.
+about, please visit https://embed.ly.  To see our api documentation, visit
+https://api.embed.ly/docs.
 
 Requirements
 ^^^^^^^^^^^^
